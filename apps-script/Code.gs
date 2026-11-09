@@ -9,7 +9,7 @@ const HEADERS = [
   'Zeitpunkt', 'Score', 'Name', 'Büro', 'Website', 'Team', 'Rolle',
   'Zeit (Top 3)', 'Routinestunden/Woche', 'Ablauf', 'Häufigkeit', 'Beteiligte', 'Vorlage', 'Programme',
   'Engpässe', 'Wunsch an KI', 'KI-Nutzung', 'KI-Tools', 'Account', 'Projektdaten in KI',
-  'Quelle (Link-Parameter)', 'Seitenversion', 'Projektinfos liegen in', 'Projektstand erfahren'
+  'Quelle (Link-Parameter)', 'Seitenversion', 'Projektinfos liegen in', 'Projektstand erfahren', 'Ziel in 6 Monaten'
 ];
 const MAX_LEN = 4000;
 
@@ -31,7 +31,7 @@ function doPost(e) {
         new Date(), num_(d.score), s_(d.name), s_(d.buero), s_(d.website), s_(d.team), s_(d.rolle),
         list_(d.zeit), s_(d.routinestunden || d.schreibstunden), s_(d.ablauf), s_(d.haeufigkeit), s_(d.beteiligte), s_(d.vorlage), s_(d.tools),
         list_(d.engpass), s_(d.wunsch), s_(d.nutzung), list_(d.tools_ki), s_(d.account), s_(d.daten),
-        s_(d.quelle), s_(d.version), list_(d.infos), s_(d.stand)
+        s_(d.quelle), s_(d.version), list_(d.infos), s_(d.stand), s_(d.ziel)
       ]);
     } finally {
       lock.releaseLock();

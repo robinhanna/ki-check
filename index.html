@@ -103,6 +103,8 @@
           <label class="opt"><input type="radio" name="rolle" value="Büro / Verwaltung"><span>Büro / Verwaltung</span></label>
           <label class="opt"><input type="radio" name="rolle" value="Studium / Praktikum"><span>Studium / Praktikum</span></label>
         </div></div>
+      <div class="q"><label for="ziel">Was wäre in einem halben Jahr für euch ein Erfolg?</label>
+        <input id="ziel" name="ziel" type="text" placeholder="z. B. mehr Wettbewerbe stemmen, weniger Überstunden, alle wissen jederzeit, wo ein Projekt steht"></div>
       <div class="err" data-err></div>
       <div class="nav"><button class="ghost" data-prev>Zurück</button><button class="primary" data-next>Weiter</button></div>
     </section>
@@ -323,6 +325,7 @@ function validate(i){
     else if (!/^(https?:\/\/)?[^\s.]+\.[^\s]{2,}/i.test(w)) e.push("Die Website sieht nicht vollständig aus.");
     if (!val("team")) e.push("Bitte die Teamgröße wählen.");
     if (!val("rolle")) e.push("Bitte deine Rolle wählen.");
+    if (text("ziel").length < 5) e.push("Bitte kurz sagen, was ein Erfolg wäre.");
   }
   if (i===2){
     if (!vals("zeit").length) e.push("Bitte mindestens eine Aufgabe wählen.");
@@ -419,7 +422,7 @@ function band(s){
 function collect(){
   return {
     version: VERSION, quelle: location.search.slice(0,300),
-    buero: text("buero"), website: text("website"), team: val("team"), rolle: val("rolle"),
+    buero: text("buero"), website: text("website"), ziel: text("ziel"), team: val("team"), rolle: val("rolle"),
     zeit: vals("zeit"), routinestunden: val("routinestunden"),
     ablauf: text("ablauf"), haeufigkeit: val("haeufigkeit"), beteiligte: val("beteiligte"), vorlage: val("vorlage"), tools: text("tools"),
     engpass: vals("engpass"), wunsch: text("wunsch"), infos: vals("infos"), stand: val("stand"),
