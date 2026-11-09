@@ -124,14 +124,18 @@
         <label class="opt"><input type="checkbox" name="zeit" value="akquise"><span>Angebote, Honorare, VgV-Bewerbungen</span></label>
         <label class="opt"><input type="checkbox" name="zeit" value="pflanzen"><span>Pflanzlisten und Pflegekonzepte</span></label>
         <label class="opt"><input type="checkbox" name="zeit" value="recherche"><span>Recherche: Normen, Produkte, Fördermittel</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="uebersicht"><span>Projektstand zusammensuchen: wer macht was, was ist offen</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="daten"><span>Excel-Listen pflegen: Stunden, Budgets, Termine, Kontakte</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="suchen"><span>Pläne, Dateien und Unterlagen suchen</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="visual"><span>Visualisierungen, Präsentationen, Wettbewerbstafeln</span></label>
         <label class="opt"><input type="checkbox" name="zeit" value="verwaltung"><span>Verwaltung, Rechnungen, Ablage</span></label>
       </div></div>
-      <div class="q"><div class="qt">Wie viele Stunden pro Woche schreibst du ungefähr? <span class="hint">Texte, Mails, Protokolle, Berichte</span></div>
-        <div class="opts" data-group="schreibstunden" data-type="radio">
-          <label class="opt"><input type="radio" name="schreibstunden" value="0-5"><span>unter 5</span></label>
-          <label class="opt"><input type="radio" name="schreibstunden" value="5-10"><span>5–10</span></label>
-          <label class="opt"><input type="radio" name="schreibstunden" value="10-20"><span>10–20</span></label>
-          <label class="opt"><input type="radio" name="schreibstunden" value="20+"><span>mehr als 20</span></label>
+      <div class="q"><div class="qt">Wie viele Stunden pro Woche gehen für Routine drauf? <span class="hint">Alles außer Entwerfen und Planen: schreiben, suchen, abstimmen, Listen pflegen, verwalten</span></div>
+        <div class="opts" data-group="routinestunden" data-type="radio">
+          <label class="opt"><input type="radio" name="routinestunden" value="0-5"><span>unter 5</span></label>
+          <label class="opt"><input type="radio" name="routinestunden" value="5-10"><span>5–10</span></label>
+          <label class="opt"><input type="radio" name="routinestunden" value="10-20"><span>10–20</span></label>
+          <label class="opt"><input type="radio" name="routinestunden" value="20+"><span>mehr als 20</span></label>
         </div></div>
       <div class="err" data-err></div>
       <div class="nav"><button class="ghost" data-prev>Zurück</button><button class="primary" data-next>Weiter</button></div>
@@ -143,7 +147,7 @@
       <h2>Der Ablauf, der dich am meisten nervt</h2>
       <p class="lead">Beschreib ihn so, als würdest du ihn einer neuen Kollegin erklären: Was kommt rein, was machst du damit, was kommt raus?</p>
       <div class="q"><label for="ablauf">Der Ablauf in deinen Worten</label>
-        <textarea id="ablauf" name="ablauf" placeholder="z. B. Nach jeder Baubesprechung schreibe ich aus meinen Notizen ein Protokoll, schicke es an alle Beteiligten und trage die offenen Punkte in eine Liste ein …"></textarea></div>
+        <textarea id="ablauf" name="ablauf" placeholder="z. B. Montags gehe ich drei Excel-Listen durch, um zu sehen, welches Projekt wo steht, und frage dann trotzdem noch im Team nach … oder: Nach jeder Baubesprechung tippe ich das Protokoll aus meinen Notizen ab …"></textarea></div>
       <div class="q"><div class="qt">Wie oft fällt er an?</div>
         <div class="opts" data-group="haeufigkeit" data-type="radio">
           <label class="opt"><input type="radio" name="haeufigkeit" value="täglich"><span>täglich</span></label>
@@ -173,8 +177,8 @@
     <!-- 4 Engpass -->
     <section data-step="4" class="hidden">
       <div class="step-label">Frage 4 von 5</div>
-      <h2>Wo hakt es dabei?</h2>
-      <p class="lead">Wähle alles, was zutrifft.</p>
+      <h2>Wo hakt es?</h2>
+      <p class="lead">Bei dem Ablauf und im Alltag allgemein. Wähle alles, was zutrifft.</p>
       <div class="q"><div class="opts" data-group="engpass" data-type="checkbox">
         <label class="opt"><input type="checkbox" name="engpass" value="suchen"><span>Alte Texte und Vorlagen suchen</span></label>
         <label class="opt"><input type="checkbox" name="engpass" value="leeres-blatt"><span>Jedes Mal bei null formulieren</span></label>
@@ -182,9 +186,28 @@
         <label class="opt"><input type="checkbox" name="engpass" value="korrektur"><span>Korrekturschleifen und Nacharbeit</span></label>
         <label class="opt"><input type="checkbox" name="engpass" value="warten"><span>Warten auf Infos von anderen</span></label>
         <label class="opt"><input type="checkbox" name="engpass" value="koepfe"><span>Das Wissen steckt in einzelnen Köpfen</span></label>
+        <label class="opt"><input type="checkbox" name="engpass" value="kein-ueberblick"><span>Kein schneller Überblick: Stand, Termine, Auslastung</span></label>
+        <label class="opt"><input type="checkbox" name="engpass" value="doppelt"><span>Dieselben Daten in mehreren Listen pflegen</span></label>
+        <label class="opt"><input type="checkbox" name="engpass" value="versionen"><span>Unklar, welche Datei oder Version aktuell ist</span></label>
       </div></div>
+      <div class="q"><div class="qt">Wo liegen eure Projektinfos? <span class="hint">Mehrfachauswahl</span></div>
+        <div class="opts" data-group="infos" data-type="checkbox">
+          <label class="opt"><input type="checkbox" name="infos" value="Excel"><span>Excel-Tabellen</span></label>
+          <label class="opt"><input type="checkbox" name="infos" value="Server-Ordner"><span>Ordner auf Server oder Cloud</span></label>
+          <label class="opt"><input type="checkbox" name="infos" value="Mails"><span>in Mails</span></label>
+          <label class="opt"><input type="checkbox" name="infos" value="PM-Tool"><span>in einem Projekt-Tool</span></label>
+          <label class="opt"><input type="checkbox" name="infos" value="Papier"><span>auf Papier und Whiteboard</span></label>
+          <label class="opt"><input type="checkbox" name="infos" value="Köpfe"><span>vor allem in Köpfen</span></label>
+        </div></div>
+      <div class="q"><div class="qt">Wie erfährst du, wo ein Projekt gerade steht?</div>
+        <div class="opts" data-group="stand" data-type="radio">
+          <label class="opt"><input type="radio" name="stand" value="nachfragen"><span>Ich frage nach</span></label>
+          <label class="opt"><input type="radio" name="stand" value="besprechung"><span>In der Teambesprechung</span></label>
+          <label class="opt"><input type="radio" name="stand" value="listen"><span>Ich schaue in Listen und Ordner</span></label>
+          <label class="opt"><input type="radio" name="stand" value="tool"><span>Auf einen Blick in einem Tool</span></label>
+        </div></div>
       <div class="q"><label for="wunsch">Was soll KI daran ändern? <span class="hint">(optional)</span></label>
-        <input id="wunsch" name="wunsch" type="text" placeholder="z. B. Mir einen ersten Entwurf liefern, den ich nur noch korrigiere"></div>
+        <input id="wunsch" name="wunsch" type="text" placeholder="z. B. Mir auf einen Blick zeigen, wo jedes Projekt steht, oder mir den ersten Entwurf liefern"></div>
       <div class="err" data-err></div>
       <div class="nav"><button class="ghost" data-prev>Zurück</button><button class="primary" data-next>Weiter</button></div>
     </section>
@@ -253,7 +276,7 @@
 // ---- Konfiguration --------------------------------------------------------
 // URL der Apps-Script-Web-App (Bereitstellung "Web-App"). Leer = nur lokal auswerten.
 const API_URL = "https://script.google.com/macros/s/AKfycbykE2F2nBtUYk3gG6Q0HbiLJmWEnvhLWNNGbGBskP13pNGaBhyzT6EgHUxwomRBR2m0/exec";
-const VERSION = "1";
+const VERSION = "2";
 
 // ---- Hilfen ---------------------------------------------------------------
 const $ = (s, r=document) => r.querySelector(s);
@@ -303,7 +326,7 @@ function validate(i){
   }
   if (i===2){
     if (!vals("zeit").length) e.push("Bitte mindestens eine Aufgabe wählen.");
-    if (!val("schreibstunden")) e.push("Bitte die Schreibstunden schätzen.");
+    if (!val("routinestunden")) e.push("Bitte die Routinestunden schätzen.");
   }
   if (i===3){
     if (text("ablauf").length < 20) e.push("Beschreib den Ablauf bitte in ein, zwei Sätzen.");
@@ -311,7 +334,7 @@ function validate(i){
     if (!val("beteiligte")) e.push("Bitte wählen, wer beteiligt ist.");
     if (!val("vorlage")) e.push("Bitte die Frage zur Vorlage beantworten.");
   }
-  if (i===4){ if (!vals("engpass").length) e.push("Bitte mindestens einen Punkt wählen."); }
+  if (i===4){ if (!vals("engpass").length) e.push("Bitte mindestens einen Engpass wählen."); if (!val("stand")) e.push("Bitte wählen, wie du den Projektstand erfährst."); }
   if (i===5){
     if (!val("nutzung")) e.push("Bitte wählen, wie oft du KI nutzt.");
     if (!val("account")) e.push("Bitte den Account wählen.");
@@ -338,24 +361,32 @@ const LEVERS = {
   kosten:     ["Kostenermittlung vorbereiten", "KI strukturiert Mengen und Kostengruppen aus euren Unterlagen und früheren Projekten vor, die Zahlen prüft ihr."],
   verwaltung: ["Verwaltung und Ablage", "Rechnungen, Ablage und Routinemails lassen sich teilweise automatisch sortieren und vorbereiten."],
   entwurf:    ["Entwurf begleiten", "Beim Zeichnen selbst hilft KI weniger. Aber Referenzrecherche, Variantenbeschreibung und Präsentationstexte rund um den Entwurf lassen sich abnehmen."],
+  uebersicht: ["Ein Projekt-Cockpit für alle", "Statt Projektstand aus Listen, Ordnern und Mails zusammenzusuchen, zieht ein Dashboard die Infos aus euren bestehenden Excel-Dateien an einem Ort zusammen: wer macht was, was ist offen, was ist fällig."],
+  daten:      ["Eine Quelle statt vieler Listen", "Daten, die heute in mehreren Excel-Tabellen gepflegt werden, laufen in einer Quelle zusammen. Alle anderen Ansichten und Auswertungen speisen sich daraus, Abgleichen von Hand entfällt."],
+  suchen:     ["Unterlagen schneller finden", "KI kann eure Projektordner durchsuchen und Fragen beantworten wie 'Wo ist der letzte Stand der Pflanzliste für Projekt X?', statt dass jemand Ordner durchklickt."],
+  visual:     ["Visualisierung und Präsentation", "KI hilft bei Referenzbildern, Stimmungsbildern, Variantenskizzen und Präsentationsaufbau, ihr behaltet die gestalterische Hand."],
   baustelle:  ["Baustelle dokumentieren", "Fotos und Sprachnotizen von der Baustelle werden zu Berichten und Mängellisten, statt abends abgetippt zu werden."]
 };
 const ENGPASS_LEVER = {
   "suchen": ["Wissen auffindbar machen", "Eure Texte, Vorlagen und Referenzen an einem Ort, den KI durchsuchen kann. Dann fragt ihr: 'Wie haben wir das bei der Schule X formuliert?'"],
   "koepfe": ["Wissen aus den Köpfen holen", "Was einzelne wissen, wird einmal aufgeschrieben und als Bürowissen für KI nutzbar. Das hilft auch bei Urlaub und Einarbeitung."],
   "leeres-blatt": ["Nie wieder leeres Blatt", "Jeder wiederkehrende Text bekommt eine Vorlage, aus der KI den ersten Entwurf schreibt."],
+  "kein-ueberblick": ["Ein Projekt-Cockpit für alle", "Termine, Zuständigkeiten, offene Punkte und Auslastung auf einen Blick, gespeist aus den Listen, die ihr ohnehin pflegt."],
+  "doppelt": ["Eine Quelle statt vieler Listen", "Jede Information wird einmal gepflegt, alle Übersichten lesen von dort. Das spart Abgleich und verhindert Widersprüche."],
+  "versionen": ["Klare Ablage, klarer Stand", "Eine feste Ablagelogik plus KI, die den aktuellen Stand findet und zusammenfasst, statt fünf Dateien mit 'final_v3' im Namen."],
   "abtippen": ["Abtippen abschaffen", "Inhalte, die heute von Hand übertragen werden, lassen sich oft direkt aus Notizen, Fotos oder Dokumenten auslesen."]
 };
-const TEXTLASTIG = ["wettbewerb","berichte","lv","protokolle","abstimmung","akquise","pflanzen","recherche"];
+const ROUTINE = ["wettbewerb","berichte","lv","protokolle","abstimmung","akquise","pflanzen","recherche","uebersicht","daten","suchen"];
 
 function score(d){
   let s = 0;
-  s += ({"0-5":5,"5-10":12,"10-20":20,"20+":25})[d.schreibstunden] || 0;
-  s += Math.min(18, d.zeit.reduce((a,z)=>a + (TEXTLASTIG.includes(z)?6:(["kosten","verwaltung"].includes(z)?4:2)),0));
+  s += ({"0-5":5,"5-10":12,"10-20":20,"20+":25})[d.routinestunden] || 0;
+  s += Math.min(18, d.zeit.reduce((a,z)=>a + (ROUTINE.includes(z)?6:(["kosten","verwaltung"].includes(z)?4:2)),0));
   s += ({"täglich":15,"wöchentlich":12,"pro Projekt oder Wettbewerb":10,"monatlich oder seltener":6})[d.haeufigkeit] || 0;
   s += ({"ja, aber jeder anders":10,"nein":8,"ja, aktuell":5})[d.vorlage] || 0;
   s += ({"auch Externe":5,"das ganze Team":5,"2–3 Leute im Büro":4,"nur ich":3})[d.beteiligte] || 0;
   s += Math.min(20, d.engpass.reduce((a,e)=>a + (["warten","korrektur"].includes(e)?3:5),0));
+  if (d.stand === "nachfragen" || d.stand === "listen") s += 3;
   s += ({"täglich":7,"wöchentlich":7,"ab und zu":5,"nie":3})[d.nutzung] || 0;
   return Math.max(10, Math.min(100, Math.round(s)));
 }
@@ -366,30 +397,32 @@ function levers(d){
   const KW = {protokolle:/protokoll|mängel|baubesprech|bautagebuch/i, wettbewerb:/wettbewerb|auslobung/i,
     berichte:/erläuterung|bericht|beschreibung/i, lv:/leistungsverzeichnis|\blv\b|ausschreib|ava/i,
     akquise:/angebot|honorar|vgv|bewerbung/i, abstimmung:/mail|abstimm/i, pflanzen:/pflanz|pflege/i,
-    kosten:/kosten/i, recherche:/recherch|norm|förder/i};
+    kosten:/kosten/i, recherche:/recherch|norm|förder/i, uebersicht:/überblick|übersicht|stand|status|auslastung|wer macht/i,
+    daten:/excel|tabelle|liste|stunden|budget/i, suchen:/such|finden|ordner|ablage|version/i, visual:/visual|präsentation|rendering|tafel|bild/i};
   const hit = Object.keys(KW).find(k=>KW[k].test(d.ablauf));
-  const z = hit || d.zeit.find(x=>TEXTLASTIG.includes(x)) || d.zeit[0];
+  const z = hit || d.zeit.find(x=>ROUTINE.includes(x)) || d.zeit[0];
   if (z) out.push(LEVERS[z]);
   // 2. Hebel: aus dem Engpass, sonst zweiter Zeitbereich
-  const e = d.engpass.find(x=>ENGPASS_LEVER[x]);
-  if (e) out.push(ENGPASS_LEVER[e]);
-  else { const z2 = d.zeit.find(x=>x!==z); if (z2) out.push(LEVERS[z2]); }
+  const first = out[0] ? out[0][0] : "";
+  const cands = [...d.engpass.map(x=>ENGPASS_LEVER[x]), ...d.zeit.filter(x=>x!==z).map(x=>LEVERS[x])];
+  const second = cands.find(c=>c && c[0] !== first);
+  if (second) out.push(second);
   return out.slice(0,2);
 }
 
 function band(s){
-  if (s>=70) return ["Großes Potenzial", "In deinem Alltag steckt viel wiederkehrende Text- und Abstimmungsarbeit. Genau dort ist KI heute am stärksten."];
+  if (s>=70) return ["Großes Potenzial", "In deinem Alltag steckt viel wiederkehrende Routine: schreiben, suchen, abstimmen, Listen pflegen. Genau dort kann KI heute am meisten abnehmen."];
   if (s>=45) return ["Deutliches Potenzial", "Einige deiner Abläufe eignen sich gut für KI. Mit einem gezielten ersten Schritt lässt sich spürbar Zeit sparen."];
-  return ["Einzelne Hebel", "Dein Alltag ist stark von Entwurf und Arbeit vor Ort geprägt. KI kann trotzdem gezielt entlasten, vor allem bei den Texten drumherum."];
+  return ["Einzelne Hebel", "Dein Alltag ist stark von Entwurf und Arbeit vor Ort geprägt. KI kann trotzdem gezielt entlasten, bei allem, was drumherum anfällt."];
 }
 
 function collect(){
   return {
     version: VERSION, quelle: location.search.slice(0,300),
     buero: text("buero"), website: text("website"), team: val("team"), rolle: val("rolle"),
-    zeit: vals("zeit"), schreibstunden: val("schreibstunden"),
+    zeit: vals("zeit"), routinestunden: val("routinestunden"),
     ablauf: text("ablauf"), haeufigkeit: val("haeufigkeit"), beteiligte: val("beteiligte"), vorlage: val("vorlage"), tools: text("tools"),
-    engpass: vals("engpass"), wunsch: text("wunsch"),
+    engpass: vals("engpass"), wunsch: text("wunsch"), infos: vals("infos"), stand: val("stand"),
     nutzung: val("nutzung"), tools_ki: vals("tools_ki"), account: val("account"), daten: val("daten"),
     name: text("name"), hp: $("#hp").value
   };
@@ -411,6 +444,7 @@ function render(d){
   const flags = [];
   if (d.daten === "ja" && d.account !== "vom Büro") flags.push("Achtung Datenschutz: Kundendaten landen in privaten KI-Accounts. Das ist das Erste, was sich mit einem gemeinsamen Büro-Account lösen lässt.");
   else if (d.daten === "unsicher") flags.push("Unklar, welche Daten in die KI gehen: Eine kurze gemeinsame Regel für das Büro schafft hier schnell Sicherheit.");
+  if (d.infos.includes("Excel") && !d.infos.includes("PM-Tool") && ["nachfragen","listen"].includes(d.stand)) flags.push("Der Projektstand steckt in Listen und Köpfen: Ein gemeinsames Cockpit auf Basis eurer Excel-Dateien wäre ein schneller, sichtbarer Gewinn fürs ganze Team.");
   if (d.vorlage === "ja, aber jeder anders") flags.push("Jeder macht es anders: Eine gemeinsame Vorlage ist der schnellste Gewinn, mit oder ohne KI.");
   $("#flags").innerHTML = "";
   flags.forEach(f=>{ const el = document.createElement("div"); el.className = "flag"; el.textContent = f; $("#flags").append(el); });
