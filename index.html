@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KI-Check für Planungsbüros</title>
+<meta name="description" content="In 4 Minuten herausfinden, wo KI in deinem Planungsbüro am meisten Zeit spart.">
+<meta name="robots" content="noindex">
+<style>
+  :root{
+    --coral:#F17C66; --coral-dark:#C16352; --tint:#FCE5E0; --on-tint:#904B3E;
+    --bg:#EDEBE8; --surface:#FFFFFF; --ink:#282828; --muted:#5C5C5C; --line:#D9D5D0;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+  .wrap{max-width:720px;margin:0 auto;padding:24px 16px 64px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+  .brand{font-weight:800;letter-spacing:.2px}
+  .brand span{color:var(--coral-dark)}
+  .progress{flex:1;max-width:260px;height:8px;background:#fff;border-radius:99px;overflow:hidden}
+  .progress i{display:block;height:100%;width:0;background:var(--coral);transition:width .3s}
+  .card{background:var(--surface);border-radius:var(--radius);padding:28px 24px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+  h1{font-size:30px;line-height:1.2;margin:0 0 12px;font-weight:900}
+  h2{font-size:22px;line-height:1.3;margin:0 0 4px;font-weight:800}
+  .step-label{font-size:13px;color:var(--muted);margin-bottom:8px}
+  .lead{color:var(--muted);margin:0 0 20px}
+  .q{margin:22px 0 0}
+  .q > label, .q > .qt{display:block;font-weight:700;margin-bottom:8px}
+  .hint{font-weight:400;color:var(--muted);font-size:14px}
+  input[type=text],input[type=url],textarea,select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:inherit;color:inherit;background:#fff}
+  textarea{min-height:110px;resize:vertical}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--coral);outline-offset:1px;border-color:transparent}
+  .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+  .opt{position:relative}
+  .opt input{position:absolute;opacity:0;pointer-events:none}
+  .opt span{display:block;height:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;cursor:pointer;font-size:15px;line-height:1.35;background:#fff;transition:background .15s,border-color .15s}
+  .opt input:checked + span{background:var(--tint);border-color:var(--coral);color:var(--on-tint);font-weight:600}
+  .opt input:focus-visible + span{outline:2px solid var(--coral);outline-offset:1px}
+  .opt.disabled span{opacity:.45;cursor:not-allowed}
+  .nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:28px}
+  button{font:inherit;font-weight:700;font-size:15px;border:0;border-radius:24px;padding:13px 24px;cursor:pointer}
+  .primary{background:var(--coral);color:var(--ink)}
+  .primary:hover{background:var(--coral-dark);color:#fff}
+  .primary[disabled]{opacity:.5;cursor:not-allowed;background:var(--coral);color:var(--ink)}
+  .ghost{background:transparent;color:var(--muted);padding-left:0}
+  .err{color:#B3261E;font-size:14px;margin-top:10px;min-height:1em}
+  .privacy{font-size:13px;color:var(--muted);margin-top:18px}
+  .privacy label{display:flex;gap:10px;align-items:flex-start;font-weight:400;cursor:pointer}
+  .privacy input{margin-top:4px}
+  .score{display:flex;align-items:center;gap:20px;margin:8px 0 20px}
+  .ring{--p:0;width:120px;height:120px;border-radius:50%;flex:none;display:grid;place-items:center;
+        background:conic-gradient(var(--coral) calc(var(--p)*1%), var(--bg) 0)}
+  .ring b{width:92px;height:92px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:30px;font-weight:900}
+  .band{font-size:20px;font-weight:800;margin:0}
+  .lever{border-left:4px solid var(--coral);background:var(--bg);border-radius:0 12px 12px 0;padding:14px 16px;margin:12px 0}
+  .lever h3{margin:0 0 4px;font-size:17px}
+  .lever p{margin:0;font-size:15px}
+  .flag{background:#FFF4E5;border:1px solid #F0C166;border-radius:12px;padding:14px 16px;margin:16px 0;font-size:15px}
+  .ok{color:var(--muted);font-size:14px;margin-top:20px}
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:24px}
+  .hidden{display:none !important}
+  @media (max-width:520px){h1{font-size:25px}.card{padding:22px 16px}.score{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">KI-Check <span>Planungsbüro</span></div>
+    <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+  </header>
+
+  <main class="card" id="app" aria-live="polite">
+    <!-- Intro -->
+    <section data-step="0">
+      <h1>Wo spart KI in deinem Büro wirklich Zeit?</h1>
+      <p class="lead">Fünf kurze Fragen, etwa 4 Minuten. Am Ende siehst du eine Punktzahl und die zwei Stellen, an denen KI in deinem Arbeitsalltag am meisten bringen würde.</p>
+      <p class="lead">Es gibt keine falschen Antworten. Je konkreter du den Ablauf beschreibst, der dich am meisten nervt, desto brauchbarer wird das Ergebnis.</p>
+      <div class="nav"><span></span><button class="primary" data-next>Los geht's</button></div>
+    </section>
+
+    <!-- 1 Büro -->
+    <section data-step="1" class="hidden">
+      <div class="step-label">Frage 1 von 5</div>
+      <h2>Dein Büro</h2>
+      <p class="lead">Damit wir die Antworten einordnen können.</p>
+      <div class="q"><label for="buero">Name des Büros</label><input id="buero" name="buero" type="text" autocomplete="organization"></div>
+      <div class="q"><label for="website">Website <span class="hint">(Pflichtfeld)</span></label><input id="website" name="website" type="url" placeholder="https://" required></div>
+      <div class="q"><div class="qt">Wie viele Leute arbeiten im Büro?</div>
+        <div class="opts" data-group="team" data-type="radio">
+          <label class="opt"><input type="radio" name="team" value="1–3"><span>1–3</span></label>
+          <label class="opt"><input type="radio" name="team" value="4–10"><span>4–10</span></label>
+          <label class="opt"><input type="radio" name="team" value="11–25"><span>11–25</span></label>
+          <label class="opt"><input type="radio" name="team" value="mehr als 25"><span>mehr als 25</span></label>
+        </div></div>
+      <div class="q"><div class="qt">Deine Rolle</div>
+        <div class="opts" data-group="rolle" data-type="radio">
+          <label class="opt"><input type="radio" name="rolle" value="Inhaber:in / Partner:in"><span>Inhaber:in / Partner:in</span></label>
+          <label class="opt"><input type="radio" name="rolle" value="Projektleitung"><span>Projektleitung</span></label>
+          <label class="opt"><input type="radio" name="rolle" value="Planung / Entwurf"><span>Planung / Entwurf</span></label>
+          <label class="opt"><input type="radio" name="rolle" value="Bauleitung / Objektüberwachung"><span>Bauleitung / Objektüberwachung</span></label>
+          <label class="opt"><input type="radio" name="rolle" value="Büro / Verwaltung"><span>Büro / Verwaltung</span></label>
+          <label class="opt"><input type="radio" name="rolle" value="Studium / Praktikum"><span>Studium / Praktikum</span></label>
+        </div></div>
+      <div class="err" data-err></div>
+      <div class="nav"><button class="ghost" data-prev>Zurück</button><button class="primary" data-next>Weiter</button></div>
+    </section>
+
+    <!-- 2 Zeit -->
+    <section data-step="2" class="hidden">
+      <div class="step-label">Frage 2 von 5</div>
+      <h2>Wohin ist letzte Woche deine Zeit gegangen?</h2>
+      <p class="lead">Nicht wohin sie gehen sollte, sondern wohin sie tatsächlich gegangen ist. Wähle bis zu drei.</p>
+      <div class="q"><div class="opts" data-group="zeit" data-type="checkbox" data-max="3">
+        <label class="opt"><input type="checkbox" name="zeit" value="entwurf"><span>Entwurf und Zeichnen (CAD)</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="wettbewerb"><span>Wettbewerbe: Recherche, Texte, Pläne</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="berichte"><span>Erläuterungsberichte und Beschreibungen</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="kosten"><span>Kostenschätzung und -berechnung</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="lv"><span>Ausschreibung und Leistungsverzeichnisse</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="baustelle"><span>Bauüberwachung vor Ort</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="protokolle"><span>Protokolle, Mängellisten, Baubesprechungen</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="abstimmung"><span>Abstimmung per Mail mit Bauherren und Fachplanern</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="akquise"><span>Angebote, Honorare, VgV-Bewerbungen</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="pflanzen"><span>Pflanzlisten und Pflegekonzepte</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="recherche"><span>Recherche: Normen, Produkte, Fördermittel</span></label>
+        <label class="opt"><input type="checkbox" name="zeit" value="verwaltung"><span>Verwaltung, Rechnungen, Ablage</span></label>
+      </div></div>
+      <div class="q"><div class="qt">Wie viele Stunden pro Woche schreibst du ungefähr? <span class="hint">Texte, Mails, Protokolle, Berichte</span></div>
+        <div class="opts" data-group="schreibstunden" data-type="radio">
+          <label class="opt"><input type="radio" name="schreibstunden" value="0-5"><span>unter 5</span></label>
+          <label class="opt"><input type="radio" name="schreibstunden" value="5-10"><span>5–10</span></label>
+          <label class="opt"><input type="radio" name="schreibstunden" value="10-20"><span>10–20</span></label>
+          <label class="opt"><input type="radio" name="schreibstunden" value="20+"><span>mehr als 20</span></label>
+        </div></div>
+      <div class="err" data-err></div>
+      <div class="nav"><button class="ghost" data-prev>Zurück</button><button class="primary" data-next>Weiter</button></div>
+    </section>
+
+    <!-- 3 Ablauf -->
+    <section data-step="3" class="hidden">
+      <div class="step-label">Frage 3 von 5</div>
+      <h2>Der Ablauf, der dich am meisten nervt</h2>
+      <p class="lead">Beschreib ihn so, als würdest du ihn einer neuen Kollegin erklären: Was kommt rein, was machst du damit, was kommt raus?</p>
+      <div class="q"><label for="ablauf">Der Ablauf in deinen Worten</label>
+        <textarea id="ablauf" name="ablauf" placeholder="z. B. Nach jeder Baubesprechung schreibe ich aus meinen Notizen ein Protokoll, schicke es an alle Beteiligten und trage die offenen Punkte in eine Liste ein …"></textarea></div>
+      <div class="q"><div class="qt">Wie oft fällt er an?</div>
+        <div class="opts" data-group="haeufigkeit" data-type="radio">
+          <label class="opt"><input type="radio" name="haeufigkeit" value="täglich"><span>täglich</span></label>
+          <label class="opt"><input type="radio" name="haeufigkeit" value="wöchentlich"><span>wöchentlich</span></label>
+          <label class="opt"><input type="radio" name="haeufigkeit" value="pro Projekt oder Wettbewerb"><span>pro Projekt oder Wettbewerb</span></label>
+          <label class="opt"><input type="radio" name="haeufigkeit" value="monatlich oder seltener"><span>monatlich oder seltener</span></label>
+        </div></div>
+      <div class="q"><div class="qt">Wer ist beteiligt?</div>
+        <div class="opts" data-group="beteiligte" data-type="radio">
+          <label class="opt"><input type="radio" name="beteiligte" value="nur ich"><span>nur ich</span></label>
+          <label class="opt"><input type="radio" name="beteiligte" value="2–3 Leute im Büro"><span>2–3 Leute im Büro</span></label>
+          <label class="opt"><input type="radio" name="beteiligte" value="das ganze Team"><span>das ganze Team</span></label>
+          <label class="opt"><input type="radio" name="beteiligte" value="auch Externe"><span>auch Externe (Bauherr, Fachplaner, Firmen)</span></label>
+        </div></div>
+      <div class="q"><div class="qt">Gibt es dafür eine Vorlage?</div>
+        <div class="opts" data-group="vorlage" data-type="radio">
+          <label class="opt"><input type="radio" name="vorlage" value="ja, aktuell"><span>Ja, und alle nutzen sie</span></label>
+          <label class="opt"><input type="radio" name="vorlage" value="ja, aber jeder anders"><span>Ja, aber jeder macht es anders</span></label>
+          <label class="opt"><input type="radio" name="vorlage" value="nein"><span>Nein, jedes Mal neu</span></label>
+        </div></div>
+      <div class="q"><label for="tools">Mit welchen Programmen läuft der Ablauf? <span class="hint">(optional)</span></label>
+        <input id="tools" name="tools" type="text" placeholder="z. B. Word, Outlook, Vectorworks, AVA-Software, Excel …"></div>
+      <div class="err" data-err></div>
+      <div class="nav"><button class="ghost" data-prev>Zurück</button><button class="primary" data-next>Weiter</button></div>
+    </section>
+
+    <!-- 4 Engpass -->
+    <section data-step="4" class="hidden">
+      <div class="step-label">Frage 4 von 5</div>
+      <h2>Wo hakt es dabei?</h2>
+      <p class="lead">Wähle alles, was zutrifft.</p>
+      <div class="q"><div class="opts" data-group="engpass" data-type="checkbox">
+        <label class="opt"><input type="checkbox" name="engpass" value="suchen"><span>Alte Texte und Vorlagen suchen</span></label>
+        <label class="opt"><input type="checkbox" name="engpass" value="leeres-blatt"><span>Jedes Mal bei null formulieren</span></label>
+        <label class="opt"><input type="checkbox" name="engpass" value="abtippen"><span>Abtippen und von einem Programm ins andere übertragen</span></label>
+        <label class="opt"><input type="checkbox" name="engpass" value="korrektur"><span>Korrekturschleifen und Nacharbeit</span></label>
+        <label class="opt"><input type="checkbox" name="engpass" value="warten"><span>Warten auf Infos von anderen</span></label>
+        <label class="opt"><input type="checkbox" name="engpass" value="koepfe"><span>Das Wissen steckt in einzelnen Köpfen</span></label>
+      </div></div>
+      <div class="q"><label for="wunsch">Was soll KI daran ändern? <span class="hint">(optional)</span></label>
+        <input id="wunsch" name="wunsch" type="text" placeholder="z. B. Mir einen ersten Entwurf liefern, den ich nur noch korrigiere"></div>
+      <div class="err" data-err></div>
+      <div class="nav"><button class="ghost" data-prev>Zurück</button><button class="primary" data-next>Weiter</button></div>
+    </section>
+
+    <!-- 5 KI heute -->
+    <section data-step="5" class="hidden">
+      <div class="step-label">Frage 5 von 5</div>
+      <h2>Wie nutzt du KI heute?</h2>
+      <div class="q"><div class="qt">Wie oft?</div>
+        <div class="opts" data-group="nutzung" data-type="radio">
+          <label class="opt"><input type="radio" name="nutzung" value="nie"><span>gar nicht</span></label>
+          <label class="opt"><input type="radio" name="nutzung" value="ab und zu"><span>ab und zu</span></label>
+          <label class="opt"><input type="radio" name="nutzung" value="wöchentlich"><span>jede Woche</span></label>
+          <label class="opt"><input type="radio" name="nutzung" value="täglich"><span>jeden Tag</span></label>
+        </div></div>
+      <div class="q"><div class="qt">Welche Tools? <span class="hint">Mehrfachauswahl</span></div>
+        <div class="opts" data-group="tools_ki" data-type="checkbox">
+          <label class="opt"><input type="checkbox" name="tools_ki" value="ChatGPT"><span>ChatGPT</span></label>
+          <label class="opt"><input type="checkbox" name="tools_ki" value="Claude"><span>Claude</span></label>
+          <label class="opt"><input type="checkbox" name="tools_ki" value="Gemini"><span>Gemini</span></label>
+          <label class="opt"><input type="checkbox" name="tools_ki" value="Copilot"><span>Microsoft Copilot</span></label>
+          <label class="opt"><input type="checkbox" name="tools_ki" value="Perplexity"><span>Perplexity</span></label>
+          <label class="opt"><input type="checkbox" name="tools_ki" value="DeepL"><span>DeepL</span></label>
+          <label class="opt"><input type="checkbox" name="tools_ki" value="Bild-KI"><span>Bild-KI (Midjourney o. ä.)</span></label>
+          <label class="opt"><input type="checkbox" name="tools_ki" value="andere"><span>andere</span></label>
+        </div></div>
+      <div class="q"><div class="qt">Über welchen Account?</div>
+        <div class="opts" data-group="account" data-type="radio">
+          <label class="opt"><input type="radio" name="account" value="privat kostenlos"><span>privat, kostenlos</span></label>
+          <label class="opt"><input type="radio" name="account" value="privat bezahlt"><span>privat, selbst bezahlt</span></label>
+          <label class="opt"><input type="radio" name="account" value="vom Büro"><span>vom Büro bezahlt</span></label>
+          <label class="opt"><input type="radio" name="account" value="keiner"><span>keiner</span></label>
+        </div></div>
+      <div class="q"><div class="qt">Kommen Projekt- oder Kundendaten in die KI?</div>
+        <div class="opts" data-group="daten" data-type="radio">
+          <label class="opt"><input type="radio" name="daten" value="nie"><span>nie</span></label>
+          <label class="opt"><input type="radio" name="daten" value="anonymisiert"><span>nur anonymisiert</span></label>
+          <label class="opt"><input type="radio" name="daten" value="ja"><span>ja, auch Kundendaten</span></label>
+          <label class="opt"><input type="radio" name="daten" value="unsicher"><span>weiß nicht genau</span></label>
+        </div></div>
+      <div class="q"><label for="name">Dein Vorname <span class="hint">(optional, damit wir die Antworten zuordnen können)</span></label>
+        <input id="name" name="name" type="text" autocomplete="given-name"></div>
+      <div class="privacy"><label><input type="checkbox" id="consent"> <span>Ich bin einverstanden, dass meine Antworten gespeichert und nur für die Auswertung dieses KI-Checks verwendet werden. Bitte keine Kundennamen oder vertraulichen Projektdetails eintragen. Die Daten liegen in einer Google-Tabelle von Robin Hanna (Better Content Solutions, Berlin) und werden auf Wunsch jederzeit gelöscht.</span></label></div>
+      <input type="text" id="hp" name="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+      <div class="err" data-err></div>
+      <div class="nav"><button class="ghost" data-prev>Zurück</button><button class="primary" id="submit">Ergebnis anzeigen</button></div>
+    </section>
+
+    <!-- Ergebnis -->
+    <section data-step="6" class="hidden" id="result">
+      <div class="step-label">Dein Ergebnis</div>
+      <div class="score"><div class="ring" id="ring"><b id="scoreNum">0</b></div>
+        <div><p class="band" id="band"></p><p class="lead" id="bandText" style="margin:4px 0 0"></p></div></div>
+      <h2>Deine zwei größten Hebel</h2>
+      <div id="levers"></div>
+      <div id="flags"></div>
+      <h2 style="margin-top:24px">Wie es weitergeht</h2>
+      <p>Robin schaut sich deine Antworten an, vor allem den Ablauf, den du beschrieben hast, und schlägt dir einen konkreten ersten Schritt vor: einen Ablauf, ein Werkzeug, ein kleiner Test mit echten Unterlagen.</p>
+      <p class="ok" id="sendState"></p>
+    </section>
+  </main>
+  <footer>Better Content Solutions · Robin Hanna · Berlin</footer>
+</div>
+
+<script>
+// ---- Konfiguration --------------------------------------------------------
+// URL der Apps-Script-Web-App (Bereitstellung "Web-App"). Leer = nur lokal auswerten.
+const API_URL = "https://script.google.com/macros/s/AKfycbykE2F2nBtUYk3gG6Q0HbiLJmWEnvhLWNNGbGBskP13pNGaBhyzT6EgHUxwomRBR2m0/exec";
+const VERSION = "1";
+
+// ---- Hilfen ---------------------------------------------------------------
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const steps = $$("section[data-step]");
+let cur = 0;
+
+function val(name){ const el = $(`[name="${name}"]:checked`); return el ? el.value : ""; }
+function vals(name){ return $$(`[name="${name}"]:checked`).map(e => e.value); }
+function text(id){ return ($("#"+id).value || "").trim(); }
+
+function show(i){
+  steps.forEach((s,k)=>s.classList.toggle("hidden", k!==i));
+  cur = i;
+  $("#bar").style.width = Math.round(i/6*100) + "%";
+  window.scrollTo({top:0, behavior:"smooth"});
+  const f = steps[i].querySelector("input,textarea,button.primary");
+  if (f && i>0 && i<6) setTimeout(()=>f.focus({preventScroll:true}), 50);
+}
+
+// Vorbelegung per Link: ?buero=...&web=...&team=4–10
+(function prefill(){
+  const p = new URLSearchParams(location.search);
+  if (p.get("buero")) $("#buero").value = p.get("buero");
+  if (p.get("web")) $("#website").value = p.get("web");
+  const t = p.get("team");
+  if (t){ const r = $$('[name="team"]').find(e => e.value === t); if (r) r.checked = true; }
+})();
+
+// Max. Auswahl bei Checkbox-Gruppen
+$$('[data-max]').forEach(g=>{
+  const max = +g.dataset.max;
+  g.addEventListener("change", ()=>{
+    const boxes = $$("input", g); const n = boxes.filter(b=>b.checked).length;
+    boxes.forEach(b=>{ const off = !b.checked && n>=max; b.disabled = off; b.closest(".opt").classList.toggle("disabled", off); });
+  });
+});
+
+function validate(i){
+  const e = [];
+  if (i===1){
+    const w = text("website");
+    if (!w) e.push("Bitte die Website eintragen.");
+    else if (!/^(https?:\/\/)?[^\s.]+\.[^\s]{2,}/i.test(w)) e.push("Die Website sieht nicht vollständig aus.");
+    if (!val("team")) e.push("Bitte die Teamgröße wählen.");
+    if (!val("rolle")) e.push("Bitte deine Rolle wählen.");
+  }
+  if (i===2){
+    if (!vals("zeit").length) e.push("Bitte mindestens eine Aufgabe wählen.");
+    if (!val("schreibstunden")) e.push("Bitte die Schreibstunden schätzen.");
+  }
+  if (i===3){
+    if (text("ablauf").length < 20) e.push("Beschreib den Ablauf bitte in ein, zwei Sätzen.");
+    if (!val("haeufigkeit")) e.push("Bitte wählen, wie oft er anfällt.");
+    if (!val("beteiligte")) e.push("Bitte wählen, wer beteiligt ist.");
+    if (!val("vorlage")) e.push("Bitte die Frage zur Vorlage beantworten.");
+  }
+  if (i===4){ if (!vals("engpass").length) e.push("Bitte mindestens einen Punkt wählen."); }
+  if (i===5){
+    if (!val("nutzung")) e.push("Bitte wählen, wie oft du KI nutzt.");
+    if (!val("account")) e.push("Bitte den Account wählen.");
+    if (!val("daten")) e.push("Bitte die Frage zu Projektdaten beantworten.");
+    if (!$("#consent").checked) e.push("Bitte der Speicherung zustimmen, sonst können wir die Antworten nicht auswerten.");
+  }
+  const box = steps[i].querySelector("[data-err]"); if (box) box.textContent = e.join(" ");
+  return !e.length;
+}
+
+$$("[data-next]").forEach(b=>b.addEventListener("click", ()=>{ if (validate(cur)) show(cur+1); }));
+$$("[data-prev]").forEach(b=>b.addEventListener("click", ()=>show(cur-1)));
+
+// ---- Auswertung -----------------------------------------------------------
+const LEVERS = {
+  wettbewerb: ["Wettbewerbe schneller aufsetzen", "KI liest die Auslobung, fasst Anforderungen und Ort zusammen und schreibt aus euren Stichpunkten und früheren Beiträgen einen ersten Erläuterungstext im Bürostil."],
+  berichte:   ["Erläuterungsberichte aus Stichpunkten", "Aus Planinhalten, Notizen und alten Berichten entsteht ein Erstentwurf, den ihr nur noch fachlich prüft und schärft."],
+  lv:         ["Leistungsverzeichnisse vorbereiten", "KI schlägt Positionen und Langtexte aus euren bisherigen LVs vor und prüft auf Lücken. Die fachliche Freigabe bleibt bei euch."],
+  protokolle: ["Protokolle direkt nach dem Termin", "Aus Notizen oder einer Sprachaufnahme wird ein sauberes Protokoll mit Aufgabenliste, fertig zum Versand nach eurer Prüfung."],
+  abstimmung: ["Mails und Abstimmung entlasten", "Antwortentwürfe, Zusammenfassungen langer Mailverläufe und Terminvorbereitung, damit Abstimmung weniger Schreibzeit frisst."],
+  akquise:    ["Angebote und Bewerbungen", "Referenzen, Teamprofile und Projekttexte liegen einmal sauber vor, KI stellt daraus passende Angebote und VgV-Unterlagen zusammen."],
+  pflanzen:   ["Pflanzlisten und Pflegekonzepte", "KI erstellt aus Standort, Gestaltungsidee und euren Standardlisten Entwürfe für Pflanzlisten und Pflegehinweise zum Prüfen."],
+  recherche:  ["Recherche abkürzen", "Normen, Produkte, Förderprogramme: KI sucht, vergleicht und fasst mit Quellen zusammen, ihr entscheidet."],
+  kosten:     ["Kostenermittlung vorbereiten", "KI strukturiert Mengen und Kostengruppen aus euren Unterlagen und früheren Projekten vor, die Zahlen prüft ihr."],
+  verwaltung: ["Verwaltung und Ablage", "Rechnungen, Ablage und Routinemails lassen sich teilweise automatisch sortieren und vorbereiten."],
+  entwurf:    ["Entwurf begleiten", "Beim Zeichnen selbst hilft KI weniger. Aber Referenzrecherche, Variantenbeschreibung und Präsentationstexte rund um den Entwurf lassen sich abnehmen."],
+  baustelle:  ["Baustelle dokumentieren", "Fotos und Sprachnotizen von der Baustelle werden zu Berichten und Mängellisten, statt abends abgetippt zu werden."]
+};
+const ENGPASS_LEVER = {
+  "suchen": ["Wissen auffindbar machen", "Eure Texte, Vorlagen und Referenzen an einem Ort, den KI durchsuchen kann. Dann fragt ihr: 'Wie haben wir das bei der Schule X formuliert?'"],
+  "koepfe": ["Wissen aus den Köpfen holen", "Was einzelne wissen, wird einmal aufgeschrieben und als Bürowissen für KI nutzbar. Das hilft auch bei Urlaub und Einarbeitung."],
+  "leeres-blatt": ["Nie wieder leeres Blatt", "Jeder wiederkehrende Text bekommt eine Vorlage, aus der KI den ersten Entwurf schreibt."],
+  "abtippen": ["Abtippen abschaffen", "Inhalte, die heute von Hand übertragen werden, lassen sich oft direkt aus Notizen, Fotos oder Dokumenten auslesen."]
+};
+const TEXTLASTIG = ["wettbewerb","berichte","lv","protokolle","abstimmung","akquise","pflanzen","recherche"];
+
+function score(d){
+  let s = 0;
+  s += ({"0-5":5,"5-10":12,"10-20":20,"20+":25})[d.schreibstunden] || 0;
+  s += Math.min(18, d.zeit.reduce((a,z)=>a + (TEXTLASTIG.includes(z)?6:(["kosten","verwaltung"].includes(z)?4:2)),0));
+  s += ({"täglich":15,"wöchentlich":12,"pro Projekt oder Wettbewerb":10,"monatlich oder seltener":6})[d.haeufigkeit] || 0;
+  s += ({"ja, aber jeder anders":10,"nein":8,"ja, aktuell":5})[d.vorlage] || 0;
+  s += ({"auch Externe":5,"das ganze Team":5,"2–3 Leute im Büro":4,"nur ich":3})[d.beteiligte] || 0;
+  s += Math.min(20, d.engpass.reduce((a,e)=>a + (["warten","korrektur"].includes(e)?3:5),0));
+  s += ({"täglich":7,"wöchentlich":7,"ab und zu":5,"nie":3})[d.nutzung] || 0;
+  return Math.max(10, Math.min(100, Math.round(s)));
+}
+
+function levers(d){
+  const out = [];
+  // 1. Hebel: der beschriebene Ablauf (Stichworte), sonst der erste textlastige Zeitbereich
+  const KW = {protokolle:/protokoll|mängel|baubesprech|bautagebuch/i, wettbewerb:/wettbewerb|auslobung/i,
+    berichte:/erläuterung|bericht|beschreibung/i, lv:/leistungsverzeichnis|\blv\b|ausschreib|ava/i,
+    akquise:/angebot|honorar|vgv|bewerbung/i, abstimmung:/mail|abstimm/i, pflanzen:/pflanz|pflege/i,
+    kosten:/kosten/i, recherche:/recherch|norm|förder/i};
+  const hit = Object.keys(KW).find(k=>KW[k].test(d.ablauf));
+  const z = hit || d.zeit.find(x=>TEXTLASTIG.includes(x)) || d.zeit[0];
+  if (z) out.push(LEVERS[z]);
+  // 2. Hebel: aus dem Engpass, sonst zweiter Zeitbereich
+  const e = d.engpass.find(x=>ENGPASS_LEVER[x]);
+  if (e) out.push(ENGPASS_LEVER[e]);
+  else { const z2 = d.zeit.find(x=>x!==z); if (z2) out.push(LEVERS[z2]); }
+  return out.slice(0,2);
+}
+
+function band(s){
+  if (s>=70) return ["Großes Potenzial", "In deinem Alltag steckt viel wiederkehrende Text- und Abstimmungsarbeit. Genau dort ist KI heute am stärksten."];
+  if (s>=45) return ["Deutliches Potenzial", "Einige deiner Abläufe eignen sich gut für KI. Mit einem gezielten ersten Schritt lässt sich spürbar Zeit sparen."];
+  return ["Einzelne Hebel", "Dein Alltag ist stark von Entwurf und Arbeit vor Ort geprägt. KI kann trotzdem gezielt entlasten, vor allem bei den Texten drumherum."];
+}
+
+function collect(){
+  return {
+    version: VERSION, quelle: location.search.slice(0,300),
+    buero: text("buero"), website: text("website"), team: val("team"), rolle: val("rolle"),
+    zeit: vals("zeit"), schreibstunden: val("schreibstunden"),
+    ablauf: text("ablauf"), haeufigkeit: val("haeufigkeit"), beteiligte: val("beteiligte"), vorlage: val("vorlage"), tools: text("tools"),
+    engpass: vals("engpass"), wunsch: text("wunsch"),
+    nutzung: val("nutzung"), tools_ki: vals("tools_ki"), account: val("account"), daten: val("daten"),
+    name: text("name"), hp: $("#hp").value
+  };
+}
+
+function render(d){
+  const s = score(d); d.score = s;
+  const [b, bt] = band(s);
+  $("#band").textContent = b; $("#bandText").textContent = bt;
+  const ring = $("#ring"); let n = 0;
+  const t = setInterval(()=>{ n = Math.min(s, n+2); ring.style.setProperty("--p", n); $("#scoreNum").textContent = n; if (n>=s) clearInterval(t); }, 16);
+  $("#levers").innerHTML = "";
+  levers(d).forEach(([h,p])=>{
+    const el = document.createElement("div"); el.className = "lever";
+    const h3 = document.createElement("h3"); h3.textContent = h;
+    const pp = document.createElement("p"); pp.textContent = p;
+    el.append(h3, pp); $("#levers").append(el);
+  });
+  const flags = [];
+  if (d.daten === "ja" && d.account !== "vom Büro") flags.push("Achtung Datenschutz: Kundendaten landen in privaten KI-Accounts. Das ist das Erste, was sich mit einem gemeinsamen Büro-Account lösen lässt.");
+  else if (d.daten === "unsicher") flags.push("Unklar, welche Daten in die KI gehen: Eine kurze gemeinsame Regel für das Büro schafft hier schnell Sicherheit.");
+  if (d.vorlage === "ja, aber jeder anders") flags.push("Jeder macht es anders: Eine gemeinsame Vorlage ist der schnellste Gewinn, mit oder ohne KI.");
+  $("#flags").innerHTML = "";
+  flags.forEach(f=>{ const el = document.createElement("div"); el.className = "flag"; el.textContent = f; $("#flags").append(el); });
+}
+
+async function send(d){
+  const st = $("#sendState");
+  if (d.hp) return;
+  try { localStorage.setItem("ki-check-letzte-antwort", JSON.stringify(d)); } catch(e){}
+  if (!API_URL){ st.textContent = "Testmodus: Antworten wurden nicht übertragen."; return; }
+  st.textContent = "Antworten werden übertragen …";
+  try{
+    const r = await fetch(API_URL, {method:"POST", body: JSON.stringify(d)});
+    const j = await r.json();
+    st.textContent = j.ok ? "Deine Antworten sind angekommen. Danke!" : "Übertragung fehlgeschlagen. Sag Robin kurz Bescheid.";
+  }catch(e){
+    st.textContent = "Übertragung fehlgeschlagen (keine Verbindung?). Sag Robin kurz Bescheid.";
+  }
+}
+
+$("#submit").addEventListener("click", ()=>{
+  if (!validate(5)) return;
+  const d = collect(); render(d); show(6); send(d);
+});
+
+show(0);
+</script>
+</body>
+</html>
