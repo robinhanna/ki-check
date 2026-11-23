@@ -28,3 +28,8 @@ Für das Team denselben Link weitergeben. Jede Person füllt einzeln aus.
 
 ## Datenschutz
 Die Antworten landen nur in deiner Tabelle. Die Seite setzt keine Cookies und lädt nichts von Dritten. Auf Wunsch einzelne Zeilen löschen.
+
+## Link für das Team (Team-Version)
+`https://robinhanna.github.io/ki-check/?modus=team&buero=BWP%20Landschaftsarchitektur&web=https%3A%2F%2Fwww.bub-landschaftsarchitektur.de`
+
+Ohne Büro-Fragen, mit Block „Stunden und Vorgaben“ und Anonymitätszusage: Die Büroleitung bekommt nur eine Zusammenfassung, keine einzelnen Antworten. Benötigt Backend Version 3 (nach Code-Änderung neu bereitstellen).

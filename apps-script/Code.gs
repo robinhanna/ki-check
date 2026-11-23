@@ -3,13 +3,14 @@
  * Nimmt die Antworten der Seite entgegen und schreibt sie in das Blatt "Antworten".
  * Das Skript läuft als Robin; niemand sonst braucht Zugriff auf die Tabelle.
  */
-const CODE_VERSION = 2;
+const CODE_VERSION = 3;
 const SHEET_NAME = 'Antworten';
 const HEADERS = [
   'Zeitpunkt', 'Score', 'Name', 'Büro', 'Website', 'Team', 'Rolle',
   'Zeit (Top 3)', 'Routinestunden/Woche', 'Ablauf', 'Häufigkeit', 'Beteiligte', 'Vorlage', 'Programme',
   'Engpässe', 'Wunsch an KI', 'KI-Nutzung', 'KI-Tools', 'Account', 'Projektdaten in KI',
-  'Quelle (Link-Parameter)', 'Seitenversion', 'Projektinfos liegen in', 'Projektstand erfahren', 'Ziel in 6 Monaten'
+  'Quelle (Link-Parameter)', 'Seitenversion', 'Projektinfos liegen in', 'Projektstand erfahren', 'Ziel in 6 Monaten',
+  'Modus', 'Erleichterung', 'Stunden: wie', 'Stunden: wann', 'Stunden: was ist schwer', 'Stunden: Zeitaufwand', 'Vorgaben gewünscht', 'Würde ausprobieren'
 ];
 const MAX_LEN = 4000;
 
@@ -21,7 +22,7 @@ function doPost(e) {
   try {
     const d = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (d.hp) return json_({ ok: true }); // Honeypot: Bots still ignorieren
-    if (!d.website || !d.ablauf) return json_({ ok: false, error: 'Pflichtfelder fehlen' });
+    if ((!d.website && d.modus !== 'team') || !d.ablauf) return json_({ ok: false, error: 'Pflichtfelder fehlen' });
 
     const lock = LockService.getScriptLock();
     lock.waitLock(10000);
@@ -31,7 +32,8 @@ function doPost(e) {
         new Date(), num_(d.score), s_(d.name), s_(d.buero), s_(d.website), s_(d.team), s_(d.rolle),
         list_(d.zeit), s_(d.routinestunden || d.schreibstunden), s_(d.ablauf), s_(d.haeufigkeit), s_(d.beteiligte), s_(d.vorlage), s_(d.tools),
         list_(d.engpass), s_(d.wunsch), s_(d.nutzung), list_(d.tools_ki), s_(d.account), s_(d.daten),
-        s_(d.quelle), s_(d.version), list_(d.infos), s_(d.stand), s_(d.ziel)
+        s_(d.quelle), s_(d.version), list_(d.infos), s_(d.stand), s_(d.ziel),
+        s_(d.modus), s_(d.erleichterung), s_(d.erf_wie), s_(d.erf_wann), list_(d.erf_schwer), s_(d.erf_min), list_(d.standards), list_(d.ausprobieren)
       ]);
     } finally {
       lock.releaseLock();

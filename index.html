@@ -77,17 +77,18 @@
       <h1>Wo spart KI in deinem Büro wirklich Zeit?</h1>
       <p class="lead">Fünf kurze Fragen, etwa 4 Minuten. Am Ende siehst du eine Punktzahl und die zwei Stellen, an denen KI in deinem Arbeitsalltag am meisten bringen würde.</p>
       <p class="lead">Es gibt keine falschen Antworten. Je konkreter du den Ablauf beschreibst, der dich am meisten nervt, desto brauchbarer wird das Ergebnis.</p>
+      <p class="lead team-only hidden" id="anonHint"><b>Anonym:</b> Dein Name ist freiwillig. Die Büroleitung bekommt nur eine Zusammenfassung aller Antworten, keine einzelnen Antworten.</p>
       <div class="nav"><span></span><button class="primary" data-next>Los geht's</button></div>
     </section>
 
     <!-- 1 Büro -->
     <section data-step="1" class="hidden">
-      <div class="step-label">Frage 1 von 5</div>
-      <h2>Dein Büro</h2>
-      <p class="lead">Damit wir die Antworten einordnen können.</p>
-      <div class="q"><label for="buero">Name des Büros</label><input id="buero" name="buero" type="text" autocomplete="organization"></div>
-      <div class="q"><label for="website">Website <span class="hint">(Pflichtfeld)</span></label><input id="website" name="website" type="url" placeholder="https://" required></div>
-      <div class="q"><div class="qt">Wie viele Leute arbeiten im Büro?</div>
+      <div class="step-label" data-label></div>
+      <h2 id="h-buero">Dein Büro</h2>
+      <p class="lead" id="lead-buero">Damit wir die Antworten einordnen können.</p>
+      <div class="q partner-only"><label for="buero">Name des Büros</label><input id="buero" name="buero" type="text" autocomplete="organization"></div>
+      <div class="q partner-only"><label for="website">Website <span class="hint">(Pflichtfeld)</span></label><input id="website" name="website" type="url" placeholder="https://" required></div>
+      <div class="q partner-only"><div class="qt">Wie viele Leute arbeiten im Büro?</div>
         <div class="opts" data-group="team" data-type="radio">
           <label class="opt"><input type="radio" name="team" value="1–3"><span>1–3</span></label>
           <label class="opt"><input type="radio" name="team" value="4–10"><span>4–10</span></label>
@@ -103,15 +104,17 @@
           <label class="opt"><input type="radio" name="rolle" value="Büro / Verwaltung"><span>Büro / Verwaltung</span></label>
           <label class="opt"><input type="radio" name="rolle" value="Studium / Praktikum"><span>Studium / Praktikum</span></label>
         </div></div>
-      <div class="q"><label for="ziel">Was wäre in einem halben Jahr für euch ein Erfolg?</label>
+      <div class="q partner-only"><label for="ziel">Was wäre in einem halben Jahr für euch ein Erfolg?</label>
         <input id="ziel" name="ziel" type="text" placeholder="z. B. mehr Wettbewerbe stemmen, weniger Überstunden, alle wissen jederzeit, wo ein Projekt steht"></div>
+      <div class="q team-only hidden"><label for="erleichterung">Was würde dir die Arbeit am meisten erleichtern?</label>
+        <input id="erleichterung" name="erleichterung" type="text" placeholder="z. B. weniger Suchen, klarere Vorgaben, weniger doppelte Listen"></div>
       <div class="err" data-err></div>
       <div class="nav"><button class="ghost" data-prev>Zurück</button><button class="primary" data-next>Weiter</button></div>
     </section>
 
     <!-- 2 Zeit -->
     <section data-step="2" class="hidden">
-      <div class="step-label">Frage 2 von 5</div>
+      <div class="step-label" data-label></div>
       <h2>Wohin ist letzte Woche deine Zeit gegangen?</h2>
       <p class="lead">Nicht wohin sie gehen sollte, sondern wohin sie tatsächlich gegangen ist. Wähle bis zu drei.</p>
       <div class="q"><div class="opts" data-group="zeit" data-type="checkbox" data-max="3">
@@ -145,7 +148,7 @@
 
     <!-- 3 Ablauf -->
     <section data-step="3" class="hidden">
-      <div class="step-label">Frage 3 von 5</div>
+      <div class="step-label" data-label></div>
       <h2>Der Ablauf, der dich am meisten nervt</h2>
       <p class="lead">Beschreib ihn so, als würdest du ihn einer neuen Kollegin erklären: Was kommt rein, was machst du damit, was kommt raus?</p>
       <div class="q"><label for="ablauf">Der Ablauf in deinen Worten</label>
@@ -178,7 +181,7 @@
 
     <!-- 4 Engpass -->
     <section data-step="4" class="hidden">
-      <div class="step-label">Frage 4 von 5</div>
+      <div class="step-label" data-label></div>
       <h2>Wo hakt es?</h2>
       <p class="lead">Bei dem Ablauf und im Alltag allgemein. Wähle alles, was zutrifft.</p>
       <div class="q"><div class="opts" data-group="engpass" data-type="checkbox">
@@ -215,8 +218,55 @@
     </section>
 
     <!-- 5 KI heute -->
-    <section data-step="5" class="hidden">
-      <div class="step-label">Frage 5 von 5</div>
+    <section data-step="5" class="hidden team-step">
+      <div class="step-label" data-label></div>
+      <h2>Stunden und Vorgaben</h2>
+      <p class="lead">Kein Kontrollblick, sondern die Frage, was es dir schwer macht.</p>
+      <div class="q"><div class="qt">Wie erfasst du deine Stunden heute?</div>
+        <div class="opts" data-type="radio">
+          <label class="opt"><input type="radio" name="erf_wie" value="Büro-Vorlage"><span>In der Büro-Vorlage</span></label>
+          <label class="opt"><input type="radio" name="erf_wie" value="eigene Liste"><span>In einer eigenen Liste</span></label>
+          <label class="opt"><input type="radio" name="erf_wie" value="unregelmäßig"><span>Eher unregelmäßig</span></label>
+          <label class="opt"><input type="radio" name="erf_wie" value="gar nicht"><span>Gar nicht</span></label>
+        </div></div>
+      <div class="q"><div class="qt">Wann trägst du sie meistens ein?</div>
+        <div class="opts" data-type="radio">
+          <label class="opt"><input type="radio" name="erf_wann" value="täglich"><span>täglich</span></label>
+          <label class="opt"><input type="radio" name="erf_wann" value="wöchentlich"><span>einmal pro Woche</span></label>
+          <label class="opt"><input type="radio" name="erf_wann" value="Monatsende"><span>am Monatsende</span></label>
+          <label class="opt"><input type="radio" name="erf_wann" value="wenn jemand fragt"><span>wenn jemand danach fragt</span></label>
+        </div></div>
+      <div class="q"><div class="qt">Was macht es schwer? <span class="hint">Mehrfachauswahl</span></div>
+        <div class="opts" data-type="checkbox">
+          <label class="opt"><input type="checkbox" name="erf_schwer" value="HOAI-Zuordnung unklar"><span>Unklar, welcher Leistungsphase oder Leistung etwas zugehört</span></label>
+          <label class="opt"><input type="checkbox" name="erf_schwer" value="vergesse es"><span>Ich vergesse es im Alltag</span></label>
+          <label class="opt"><input type="checkbox" name="erf_schwer" value="Vorlage umständlich"><span>Die Vorlage ist umständlich</span></label>
+          <label class="opt"><input type="checkbox" name="erf_schwer" value="doppelte Eingabe"><span>Ich trage dasselbe mehrfach ein</span></label>
+          <label class="opt"><input type="checkbox" name="erf_schwer" value="Soll-Stunden unbekannt"><span>Ich kenne den vereinbarten Aufwand nicht</span></label>
+          <label class="opt"><input type="checkbox" name="erf_schwer" value="nichts"><span>Eigentlich nichts</span></label>
+        </div></div>
+      <div class="q"><div class="qt">Wie viel Zeit kostet dich das pro Woche?</div>
+        <div class="opts" data-type="radio">
+          <label class="opt"><input type="radio" name="erf_min" value="unter 15 Min"><span>unter 15 Minuten</span></label>
+          <label class="opt"><input type="radio" name="erf_min" value="15-30 Min"><span>15–30 Minuten</span></label>
+          <label class="opt"><input type="radio" name="erf_min" value="30-60 Min"><span>30–60 Minuten</span></label>
+          <label class="opt"><input type="radio" name="erf_min" value="über 1 Std"><span>mehr als eine Stunde</span></label>
+        </div></div>
+      <div class="q"><div class="qt">Wo würdest du dir klarere Vorgaben wünschen? <span class="hint">Mehrfachauswahl</span></div>
+        <div class="opts" data-type="checkbox">
+          <label class="opt"><input type="checkbox" name="standards" value="Pläne"><span>Pläne und Darstellung</span></label>
+          <label class="opt"><input type="checkbox" name="standards" value="Texte"><span>Berichte und Texte</span></label>
+          <label class="opt"><input type="checkbox" name="standards" value="Normen"><span>Normen und Regelwerke</span></label>
+          <label class="opt"><input type="checkbox" name="standards" value="Mails"><span>Mails an Bauherren und Firmen</span></label>
+          <label class="opt"><input type="checkbox" name="standards" value="Ablage"><span>Ablage und Dateinamen</span></label>
+          <label class="opt"><input type="checkbox" name="standards" value="Abläufe"><span>Wer macht was, wann</span></label>
+        </div></div>
+      <div class="err" data-err></div>
+      <div class="nav"><button class="ghost" data-prev>Zurück</button><button class="primary" data-next>Weiter</button></div>
+    </section>
+
+    <section data-step="6" class="hidden">
+      <div class="step-label" data-label></div>
       <h2>Wie nutzt du KI heute?</h2>
       <div class="q"><div class="qt">Wie oft?</div>
         <div class="opts" data-group="nutzung" data-type="radio">
@@ -250,16 +300,27 @@
           <label class="opt"><input type="radio" name="daten" value="ja"><span>ja, auch Kundendaten</span></label>
           <label class="opt"><input type="radio" name="daten" value="unsicher"><span>weiß nicht genau</span></label>
         </div></div>
-      <div class="q"><label for="name">Dein Vorname <span class="hint">(optional, damit wir die Antworten zuordnen können)</span></label>
+      <div class="q"><div class="qt">Was würdest du gern einmal ausprobieren? <span class="hint">Mehrfachauswahl, auch wenn du nicht weißt, ob es geht</span></div>
+        <div class="opts" data-type="checkbox">
+          <label class="opt"><input type="checkbox" name="ausprobieren" value="Dashboard Fristen"><span>Übersicht aller Projekte mit Warnung vor Fristen</span></label>
+          <label class="opt"><input type="checkbox" name="ausprobieren" value="Entwurfs-Visualisierung"><span>Schnelle Entwurfs-Visualisierungen und Stimmungsbilder</span></label>
+          <label class="opt"><input type="checkbox" name="ausprobieren" value="Protokoll aus Sprache"><span>Protokoll aus einer Sprachaufnahme</span></label>
+          <label class="opt"><input type="checkbox" name="ausprobieren" value="Texte im Bürostil"><span>Berichte und Texte im Stil des Büros</span></label>
+          <label class="opt"><input type="checkbox" name="ausprobieren" value="Fragen an Unterlagen"><span>Fragen an alte Projekte und Unterlagen stellen</span></label>
+          <label class="opt"><input type="checkbox" name="ausprobieren" value="Stunden-Check"><span>Stundenliste automatisch prüfen lassen</span></label>
+          <label class="opt"><input type="checkbox" name="ausprobieren" value="Mails sortieren"><span>Mails zusammenfassen und vorsortieren</span></label>
+          <label class="opt"><input type="checkbox" name="ausprobieren" value="Normen-Recherche"><span>Normen und Produkte recherchieren</span></label>
+        </div></div>
+      <div class="q"><label for="name">Dein Vorname <span class="hint" id="nameHint">(optional, damit wir die Antworten zuordnen können)</span></label>
         <input id="name" name="name" type="text" autocomplete="given-name"></div>
-      <div class="privacy"><label><input type="checkbox" id="consent"> <span>Ich bin einverstanden, dass meine Antworten gespeichert und nur für die Auswertung dieses KI-Checks verwendet werden. Bitte keine Kundennamen oder vertraulichen Projektdetails eintragen. Die Daten liegen in einer Google-Tabelle von Robin Hanna (Better Content Solutions, Berlin) und werden auf Wunsch jederzeit gelöscht.</span></label></div>
+      <div class="privacy"><label><input type="checkbox" id="consent"> <span id="consentText">Ich bin einverstanden, dass meine Antworten gespeichert und nur für die Auswertung dieses KI-Checks verwendet werden. Bitte keine Kundennamen oder vertraulichen Projektdetails eintragen. Die Daten liegen in einer Google-Tabelle von Robin Hanna (Better Content Solutions, Berlin) und werden auf Wunsch jederzeit gelöscht.</span></label></div>
       <input type="text" id="hp" name="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
       <div class="err" data-err></div>
       <div class="nav"><button class="ghost" data-prev>Zurück</button><button class="primary" id="submit">Ergebnis anzeigen</button></div>
     </section>
 
     <!-- Ergebnis -->
-    <section data-step="6" class="hidden" id="result">
+    <section data-step="7" class="hidden" id="result">
       <div class="step-label">Dein Ergebnis</div>
       <div class="score"><div class="ring" id="ring"><b id="scoreNum">0</b></div>
         <div><p class="band" id="band"></p><p class="lead" id="bandText" style="margin:4px 0 0"></p></div></div>
@@ -278,7 +339,8 @@
 // ---- Konfiguration --------------------------------------------------------
 // URL der Apps-Script-Web-App (Bereitstellung "Web-App"). Leer = nur lokal auswerten.
 const API_URL = "https://script.google.com/macros/s/AKfycbykE2F2nBtUYk3gG6Q0HbiLJmWEnvhLWNNGbGBskP13pNGaBhyzT6EgHUxwomRBR2m0/exec";
-const VERSION = "2";
+const VERSION = "3";
+const TEAM = new URLSearchParams(location.search).get("modus") === "team";
 
 // ---- Hilfen ---------------------------------------------------------------
 const $ = (s, r=document) => r.querySelector(s);
@@ -290,10 +352,16 @@ function val(name){ const el = $(`[name="${name}"]:checked`); return el ? el.val
 function vals(name){ return $$(`[name="${name}"]:checked`).map(e => e.value); }
 function text(id){ return ($("#"+id).value || "").trim(); }
 
+const FLOW = steps.map((s,k)=>k).filter(k=>TEAM || !steps[k].classList.contains("team-step"));
+const QUESTIONS = FLOW.length - 2;
+function nextOf(i){ return FLOW[FLOW.indexOf(i)+1]; }
+function prevOf(i){ return FLOW[FLOW.indexOf(i)-1]; }
 function show(i){
   steps.forEach((s,k)=>s.classList.toggle("hidden", k!==i));
   cur = i;
-  $("#bar").style.width = Math.round(i/6*100) + "%";
+  const pos = FLOW.indexOf(i);
+  const lbl = steps[i].querySelector("[data-label]"); if (lbl) lbl.textContent = `Frage ${pos} von ${QUESTIONS}`;
+  $("#bar").style.width = Math.round(pos/(FLOW.length-1)*100) + "%";
   window.scrollTo({top:0, behavior:"smooth"});
   const f = steps[i].querySelector("input,textarea,button.primary");
   if (f && i>0 && i<6) setTimeout(()=>f.focus({preventScroll:true}), 50);
@@ -320,12 +388,14 @@ $$('[data-max]').forEach(g=>{
 function validate(i){
   const e = [];
   if (i===1){
+    if (!TEAM){
     const w = text("website");
     if (!w) e.push("Bitte die Website eintragen.");
     else if (!/^(https?:\/\/)?[^\s.]+\.[^\s]{2,}/i.test(w)) e.push("Die Website sieht nicht vollständig aus.");
     if (!val("team")) e.push("Bitte die Teamgröße wählen.");
+    }
     if (!val("rolle")) e.push("Bitte deine Rolle wählen.");
-    if (text("ziel").length < 5) e.push("Bitte kurz sagen, was ein Erfolg wäre.");
+    if (!TEAM && text("ziel").length < 5) e.push("Bitte kurz sagen, was ein Erfolg wäre.");
   }
   if (i===2){
     if (!vals("zeit").length) e.push("Bitte mindestens eine Aufgabe wählen.");
@@ -339,6 +409,10 @@ function validate(i){
   }
   if (i===4){ if (!vals("engpass").length) e.push("Bitte mindestens einen Engpass wählen."); if (!val("stand")) e.push("Bitte wählen, wie du den Projektstand erfährst."); }
   if (i===5){
+    if (!val("erf_wie")) e.push("Bitte wählen, wie du Stunden erfasst.");
+    if (!val("erf_wann")) e.push("Bitte wählen, wann du sie einträgst.");
+  }
+  if (i===6){
     if (!val("nutzung")) e.push("Bitte wählen, wie oft du KI nutzt.");
     if (!val("account")) e.push("Bitte den Account wählen.");
     if (!val("daten")) e.push("Bitte die Frage zu Projektdaten beantworten.");
@@ -348,8 +422,15 @@ function validate(i){
   return !e.length;
 }
 
-$$("[data-next]").forEach(b=>b.addEventListener("click", ()=>{ if (validate(cur)) show(cur+1); }));
-$$("[data-prev]").forEach(b=>b.addEventListener("click", ()=>show(cur-1)));
+$$("[data-next]").forEach(b=>b.addEventListener("click", ()=>{ if (validate(cur)) show(nextOf(cur)); }));
+$$("[data-prev]").forEach(b=>b.addEventListener("click", ()=>show(prevOf(cur))));
+if (TEAM){
+  $$(".partner-only").forEach(e=>e.classList.add("hidden"));
+  $$(".team-only").forEach(e=>e.classList.remove("hidden"));
+  $("#h-buero").textContent = "Deine Rolle"; $("#lead-buero").textContent = "Damit wir die Antworten einordnen können, ohne dass sie auf dich zurückgehen.";
+  $("#nameHint").textContent = "(freiwillig)";
+  $("#consentText").textContent = "Ich bin einverstanden, dass meine Antworten gespeichert und nur für die Auswertung dieses KI-Checks verwendet werden. Die Büroleitung bekommt nur eine Zusammenfassung aller Antworten, keine einzelnen. Bitte keine Kundennamen eintragen. Die Daten liegen bei Robin Hanna (Better Content Solutions, Berlin) und werden auf Wunsch gelöscht.";
+}
 
 // ---- Auswertung -----------------------------------------------------------
 const LEVERS = {
@@ -364,6 +445,7 @@ const LEVERS = {
   kosten:     ["Kostenermittlung vorbereiten", "KI strukturiert Mengen und Kostengruppen aus euren Unterlagen und früheren Projekten vor, die Zahlen prüft ihr."],
   verwaltung: ["Verwaltung und Ablage", "Rechnungen, Ablage und Routinemails lassen sich teilweise automatisch sortieren und vorbereiten."],
   entwurf:    ["Entwurf begleiten", "Beim Zeichnen selbst hilft KI weniger. Aber Referenzrecherche, Variantenbeschreibung und Präsentationstexte rund um den Entwurf lassen sich abnehmen."],
+  stunden:    ["Stundenerfassung, die nicht nervt", "Eine einfache Vorlage mit Projekt und Leistungsphase, eine Erinnerung zur festen Zeit und ein wöchentlicher Check, der Lücken und unklare Zuordnungen markiert, bevor jemand nachfragen muss."],
   uebersicht: ["Ein Projekt-Cockpit für alle", "Statt Projektstand aus Listen, Ordnern und Mails zusammenzusuchen, zieht ein Dashboard die Infos aus euren bestehenden Excel-Dateien an einem Ort zusammen: wer macht was, was ist offen, was ist fällig."],
   daten:      ["Eine Quelle statt vieler Listen", "Daten, die heute in mehreren Excel-Tabellen gepflegt werden, laufen in einer Quelle zusammen. Alle anderen Ansichten und Auswertungen speisen sich daraus, Abgleichen von Hand entfällt."],
   suchen:     ["Unterlagen schneller finden", "KI kann eure Projektordner durchsuchen und Fragen beantworten wie 'Wo ist der letzte Stand der Pflanzliste für Projekt X?', statt dass jemand Ordner durchklickt."],
@@ -397,7 +479,7 @@ function score(d){
 function levers(d){
   const out = [];
   // 1. Hebel: der beschriebene Ablauf (Stichworte), sonst der erste textlastige Zeitbereich
-  const KW = {protokolle:/protokoll|mängel|baubesprech|bautagebuch/i, wettbewerb:/wettbewerb|auslobung/i,
+  const KW = {stunden:/stunde|zeiterfass|nachweis|hoai/i, protokolle:/protokoll|mängel|baubesprech|bautagebuch/i, wettbewerb:/wettbewerb|auslobung/i,
     berichte:/erläuterung|bericht|beschreibung/i, lv:/leistungsverzeichnis|\blv\b|ausschreib|ava/i,
     akquise:/angebot|honorar|vgv|bewerbung/i, abstimmung:/mail|abstimm/i, pflanzen:/pflanz|pflege/i,
     kosten:/kosten/i, recherche:/recherch|norm|förder/i, uebersicht:/überblick|übersicht|stand|status|auslastung|wer macht/i,
@@ -408,7 +490,7 @@ function levers(d){
   // 2. Hebel: aus dem Engpass, sonst zweiter Zeitbereich
   const first = out[0] ? out[0][0] : "";
   const cands = [...d.engpass.map(x=>ENGPASS_LEVER[x]), ...d.zeit.filter(x=>x!==z).map(x=>LEVERS[x])];
-  const second = cands.find(c=>c && c[0] !== first);
+  const second = [...cands, LEVERS.uebersicht, LEVERS.suchen].find(c=>c && c[0] !== first);
   if (second) out.push(second);
   return out.slice(0,2);
 }
@@ -427,7 +509,10 @@ function collect(){
     ablauf: text("ablauf"), haeufigkeit: val("haeufigkeit"), beteiligte: val("beteiligte"), vorlage: val("vorlage"), tools: text("tools"),
     engpass: vals("engpass"), wunsch: text("wunsch"), infos: vals("infos"), stand: val("stand"),
     nutzung: val("nutzung"), tools_ki: vals("tools_ki"), account: val("account"), daten: val("daten"),
-    name: text("name"), hp: $("#hp").value
+    name: text("name"), hp: $("#hp").value,
+    modus: TEAM ? "team" : "partner", erleichterung: text("erleichterung"),
+    erf_wie: val("erf_wie"), erf_wann: val("erf_wann"), erf_schwer: vals("erf_schwer"), erf_min: val("erf_min"),
+    standards: vals("standards"), ausprobieren: vals("ausprobieren")
   };
 }
 
@@ -469,8 +554,8 @@ async function send(d){
 }
 
 $("#submit").addEventListener("click", ()=>{
-  if (!validate(5)) return;
-  const d = collect(); render(d); show(6); send(d);
+  if (!validate(6)) return;
+  const d = collect(); render(d); show(7); send(d);
 });
 
 show(0);
